@@ -11,8 +11,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("fishmarketgui.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setTitle("Lobitos Fishery Marketplace");
+        primaryStage.setScene(new Scene(root, 800, 800));
         primaryStage.show();
     }
 

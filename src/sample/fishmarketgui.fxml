@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="523.0" prefWidth="764.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="523.0" prefWidth="764.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
   <tabs>
     <Tab text="Welcome">
       <content>
@@ -23,7 +23,7 @@
                         <Font name="Segoe UI" size="18.0" />
                      </font>
                   </Text>
-                  <Hyperlink layoutX="263.0" layoutY="411.0" text="New member? Register Here">
+                  <Hyperlink layoutX="263.0" layoutY="411.0" onMouseClicked="#newMemberOnClickEvent" text="New member? Register Here">
                      <font>
                         <Font name="Segoe UI" size="18.0" />
                      </font>
@@ -36,12 +36,12 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <PasswordField fx:id="confirmPassField" layoutX="296.0" layoutY="342.0" promptText="Confirm Password" />
-                  <TextField fx:id="usernameField" layoutX="296.0" layoutY="266.0" promptText="Username" />
-                  <PasswordField fx:id="passwordField" layoutX="296.0" layoutY="306.0" promptText="Password" />
-                  <TextField fx:id="lNameField" layoutX="296.0" layoutY="230.0" promptText="Surname" />
-                  <TextField fx:id="fNameField" layoutX="296.0" layoutY="197.0" promptText="Name" />
-                  <Text layoutX="157.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Register for the marketplace">
+                  <PasswordField fx:id="confirmPassField" layoutX="296.0" layoutY="300.0" promptText="Confirm Password" />
+                  <TextField fx:id="usernameField" layoutX="296.0" layoutY="230.0" promptText="Username" />
+                  <PasswordField fx:id="passwordField" layoutX="296.0" layoutY="265.0" promptText="Password" />
+                  <TextField fx:id="lNameField" layoutX="296.0" layoutY="195.0" promptText="Surname" />
+                  <TextField fx:id="fNameField" layoutX="296.0" layoutY="160.0" promptText="Name" />
+                  <Text layoutX="158.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Register for the marketplace">
                      <font>
                         <Font name="Segoe UI" size="36.0" />
                      </font>
@@ -51,6 +51,11 @@
                         <Font name="Segoe UI" size="18.0" />
                      </font>
                   </Button>
+                  <Text fx:id="validationText" layoutX="287.0" layoutY="366.0" strokeType="OUTSIDE" strokeWidth="0.0" text="">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
                </children>
             </AnchorPane>
          </content>

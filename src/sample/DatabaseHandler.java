@@ -222,131 +222,6 @@ public class DatabaseHandler {
         }
     }
 
-    public static void StoreGoalData(String weightGoal, String currentWeight, UserAccount userAccount, String prevWeight1,
-                                     String prevWeight2, String prevWeight3) throws IOException, CsvValidationException {
-        int userId = userAccount.getUserId();
-
-        String csvPath = "goals.csv";
-
-        CSVWriter appendWriter = new CSVWriter(new FileWriter(csvPath, true));
-
-        if (!(new File(csvPath).exists())) {
-            String[] record = (String.valueOf(userAccount.getUserId()) + "," + weightGoal + "," + currentWeight +
-                    "," + prevWeight1 + "," + prevWeight2 + "," +prevWeight3).split(",");
-            appendWriter.writeNext(record);
-            appendWriter.close();
-        }
-
-        FileReader fileReader = new FileReader(csvPath);
-
-        CSVReader csvReader = new CSVReader(fileReader);
-        String[] nextRecord;
-
-        String csvTmp = "tmp.csv";
-        CSVWriter updateWriter = new CSVWriter(new FileWriter(csvTmp, true));
-
-        if (CheckID(userId, csvPath)) {
-            while ((nextRecord = csvReader.readNext()) != null) {
-                if (nextRecord[0].equals(String.valueOf(userId))) {
-                    String[] record = (String.valueOf(userAccount.getUserId()) + "," + weightGoal + "," + currentWeight +
-                            "," + prevWeight1 + "," + prevWeight2 + "," +prevWeight3).split(",");
-                    updateWriter.writeNext(record);
-                } else {
-                    String[] record = nextRecord;
-                    updateWriter.writeNext(record);
-                }
-            }
-
-            File fileToDelete = new File(csvPath);
-            fileToDelete.delete();
-
-            File fileToRename = new File(csvTmp);
-            fileToRename.renameTo(new File(csvPath));
-
-            updateWriter.close();
-        }
-        else {
-            String[] record = (String.valueOf(userAccount.getUserId()) + "," + weightGoal + "," + currentWeight +
-                    "," + prevWeight1 + "," + prevWeight2 + "," +prevWeight3).split(",");
-            appendWriter.writeNext(record);
-            appendWriter.close();
-        }
-    }
-
-    public static String LoadGoalData(int id, int returnChoice) throws IOException, CsvValidationException {
-        FileReader fileReader = new FileReader("goals.csv");
-        CSVReader CSVreader = new CSVReader(fileReader);
-        String[] nextRecord;
-
-        String returnValue = "";
-        while ((nextRecord = CSVreader.readNext()) != null) {
-            if (Integer.parseInt(nextRecord[0]) == id) {
-                returnValue = nextRecord[returnChoice + 1];
-            }
-        }
-
-        return returnValue;
-    }
-
-    public static void StoreFoodData(int userId, String breakfast, String lunch, String dinner, String snack) throws IOException, CsvValidationException {
-        String path = "food.csv";
-        CSVWriter appendWriter = new CSVWriter(new FileWriter(path, true));
-
-        if (!(new File(path).exists())) {
-            String[] record = (userId + "," + breakfast + "," + lunch + "," + dinner + "," + snack).split(",");
-            appendWriter.writeNext(record);
-            appendWriter.close();
-        }
-
-        FileReader fileReader = new FileReader(path);
-
-        CSVReader csvReader = new CSVReader(fileReader);
-        String[] nextRecord;
-
-        String csvTmp = "tmp.csv";
-        CSVWriter updateWriter = new CSVWriter(new FileWriter(csvTmp, true));
-
-        if (CheckID(userId, path)) {
-            while ((nextRecord = csvReader.readNext()) != null) {
-                if (nextRecord[0].equals(String.valueOf(userId))) {
-                    String[] record = (userId + "," + breakfast + "," + lunch + "," + dinner + "," + snack).split(",");
-                    updateWriter.writeNext(record);
-                } else {
-                    String[] record = nextRecord;
-                    updateWriter.writeNext(record);
-                }
-            }
-
-            File fileToDelete = new File(path);
-            fileToDelete.delete();
-
-            File fileToRename = new File(csvTmp);
-            fileToRename.renameTo(new File(path));
-
-            updateWriter.close();
-        }
-        else {
-            String[] record = (userId + "," + breakfast + "," + lunch + "," + dinner + "," + snack).split(",");
-            appendWriter.writeNext(record);
-            appendWriter.close();
-        }
-    }
-
-    public static String LoadFoodData(int id, int returnChoice) throws IOException, CsvValidationException {
-        FileReader fileReader = new FileReader("food.csv");
-        CSVReader CSVreader = new CSVReader(fileReader);
-        String[] nextRecord;
-
-        String returnValue = "";
-        while ((nextRecord = CSVreader.readNext()) != null) {
-            if (Integer.parseInt(nextRecord[0]) == id) {
-                returnValue = nextRecord[returnChoice + 1];
-            }
-        }
-
-        return returnValue;
-    }
-
     public static boolean CheckID(int id, String path) throws IOException, CsvValidationException {
 
         if (!new File(path).exists()) return false;
@@ -363,9 +238,26 @@ public class DatabaseHandler {
         return returnValue;
     }
 
+    public static boolean CheckUsernameExist(String username, String path) throws IOException, CsvValidationException {
+
+        if (!new File(path).exists()) return false;
+
+        FileReader fileReader = new FileReader(path);
+        CSVReader csvReader = new CSVReader(fileReader);
+
+        boolean returnValue = false;
+        String[] nextRecord;
+        while ((nextRecord = csvReader.readNext()) != null) {
+            if (nextRecord[3].equals(username)) returnValue = true;
+//            System.out.println(nextRecord[3]);
+        }
+
+        return returnValue;
+    }
+
     public static byte[] salt;
     public static void main(String[] args) throws Exception
     {
-
+        CheckUsernameExist("test", "users.csv");
     }
 }

@@ -3,21 +3,31 @@ package sample;
 import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
-public class Controller {
+public class WelcomePageController {
+    UserAccount userAccount = new UserAccount();
     int user_id = 0;    // used for storing user, the id is used to easily refer to a specific user
 
     // Increments userID every time a new user is added
     public void incUserID() {
         int tmp = DatabaseHandler.getLastUserId("users.csv");
         user_id = tmp + 1;
+    }
+
+    public UserAccount GetUser() {
+        return this.userAccount;
     }
 
     @FXML TextField fNameField, lNameField, usernameField, passwordField, confirmPassField, loginUsernameField, loginPassField;
@@ -122,12 +132,31 @@ public class Controller {
         loginAlert.setHeaderText(null);
 
         if (isLoginSuccess) {
+
+            user_id = DatabaseHandler.returnUserId(loginUsernameField.getText());
+            userAccount = DatabaseHandler.returnUserAccount(user_id);
+            MainPageController.userAccount = this.userAccount;
+            System.out.println("TEST: " + userAccount.toString());
             loginAlert.setContentText("Login Successful");
+
+            loginAlert.showAndWait();
+
+            switchToMainScreen(event);
         } else {
             loginAlert.setContentText("Login Failed");
+            loginAlert.showAndWait();
         }
 
-        loginAlert.showAndWait();
+
+    }
+
+    public void switchToMainScreen(MouseEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("mainGUI.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root, 800, 800);
+
+        stage.setScene(scene);
+        stage.show();
     }
 
     // ******* Methods used for validating registration fields ********
@@ -141,7 +170,6 @@ public class Controller {
         return s.matches(pattern);
     }
     // *****************************************************************
-
 
     public void newMemberOnClickEvent(MouseEvent event) {
         tabPane.getSelectionModel().select(1);

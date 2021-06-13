@@ -130,7 +130,6 @@ public class MainPageController {
                 newItems.sort(new PriceSort().reversed());
                 break;
             default:
-                newItems = dbItems;
                 break;
         }
         for (int i = 0; i < max_display; i++) {

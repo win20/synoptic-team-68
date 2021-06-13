@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="523.0" prefWidth="764.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.WelcomePageController">
+  <tabs>
+    <Tab text="Welcome">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Text layoutX="60.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to Lobitos Fishery Marketplace">
+                     <font>
+                        <Font name="Segoe UI" size="36.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="loginUsernameField" layoutX="308.0" layoutY="291.0" promptText="Username" />
+                  <PasswordField fx:id="loginPassField" layoutX="308.0" layoutY="336.0" promptText="Password" />
+                  <Text layoutX="357.0" layoutY="254.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login:">
+                     <font>
+                        <Font name="Segoe UI" size="18.0" />
+                     </font>
+                  </Text>
+                  <Hyperlink layoutX="263.0" layoutY="411.0" onMouseClicked="#newMemberOnClickEvent" text="New member? Register Here">
+                     <font>
+                        <Font name="Segoe UI" size="18.0" />
+                     </font>
+                  </Hyperlink>
+                  <Button fx:id="loginBtn" layoutX="361.0" layoutY="375.0" mnemonicParsing="false" onMouseClicked="#loginOnClickEvent" style="-fx-background-color: #00D3D6; -fx-cursor: hand;" text="Login" />
+               </children></AnchorPane>
+      </content>
+    </Tab>
+      <Tab text="Register">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <PasswordField fx:id="confirmPassField" layoutX="296.0" layoutY="300.0" promptText="Confirm Password" />
+                  <TextField fx:id="usernameField" layoutX="296.0" layoutY="230.0" promptText="Username" />
+                  <PasswordField fx:id="passwordField" layoutX="296.0" layoutY="265.0" promptText="Password" />
+                  <TextField fx:id="lNameField" layoutX="296.0" layoutY="195.0" promptText="Surname" />
+                  <TextField fx:id="fNameField" layoutX="296.0" layoutY="160.0" promptText="Name" />
+                  <Text layoutX="158.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Register for the marketplace">
+                     <font>
+                        <Font name="Segoe UI" size="36.0" />
+                     </font>
+                  </Text>
+                  <Button layoutX="327.0" layoutY="408.0" mnemonicParsing="false" onMouseClicked="#registerOnClickEvent" style="-fx-background-color: #00D3D6; -fx-cursor: hand;" text="Confirm">
+                     <font>
+                        <Font name="Segoe UI" size="18.0" />
+                     </font>
+                  </Button>
+                  <Text fx:id="validationText" layoutX="287.0" layoutY="366.0" strokeType="OUTSIDE" strokeWidth="0.0" text="">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+      <Tab text="Help">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Text layoutX="345.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Help">
+                     <font>
+                        <Font name="Segoe UI" size="36.0" />
+                     </font>
+                  </Text>
+                  <Hyperlink layoutX="307.0" layoutY="425.0" text="Back to Welcome">
+                     <font>
+                        <Font name="Segoe UI" size="18.0" />
+                     </font>
+                  </Hyperlink>
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+  </tabs>
+</TabPane>

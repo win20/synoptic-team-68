@@ -100,6 +100,9 @@
                      </font>
                   </Text>
                   <Text layoutX="206.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The marketplace is where you can view all of the avaliable products from local sellers. You can click &quot;view&quot; to find out more information and click &quot;buy&quot; to add the product to your basket" textAlignment="CENTER" wrappingWidth="348.37430572509766" />
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
                </children>
             </AnchorPane>

@@ -60,23 +60,35 @@
             </AnchorPane>
          </content>
       </Tab>
-      <Tab text="Help">
-         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <Text layoutX="345.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Help">
-                     <font>
-                        <Font name="Segoe UI" size="36.0" />
-                     </font>
-                  </Text>
-                  <Hyperlink layoutX="307.0" layoutY="425.0" text="Back to Welcome">
-                     <font>
-                        <Font name="Segoe UI" size="18.0" />
-                     </font>
-                  </Hyperlink>
-               </children>
-            </AnchorPane>
-         </content>
-      </Tab>
+     <Tab text="Help">
+        <content>
+           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                 <Text layoutX="345.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Help">
+                    <font>
+                       <Font name="Segoe UI" size="36.0" />
+                    </font>
+                 </Text>
+                 <Hyperlink layoutX="307.0" layoutY="425.0" text="Back to Welcome">
+                    <font>
+                       <Font name="Segoe UI" size="18.0" />
+                    </font>
+                 </Hyperlink>
+                 <Text layoutX="267.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Creating a new Account" wrappingWidth="227.35682678222656">
+                    <font>
+                       <Font name="Arial Bold Italic" size="19.0" />
+                    </font>
+                 </Text>
+                 <Text layoutX="111.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Creating a new account is extremely simple. When you open the program just click the link at the bottom reading &quot;New Member? Register here&quot;. Next simply fill out the form by entering your first and last name, as well as picking a username and password. When you are done just press &quot;Confirm&quot; and you have successfully registered with us!" textAlignment="CENTER" wrappingWidth="539.7076568603516" />
+                 <Text layoutX="267.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The Marketplace" textAlignment="CENTER" wrappingWidth="227.35682678222656">
+                    <font>
+                       <Font name="Arial Bold Italic" size="19.0" />
+                    </font>
+                 </Text>
+                 <Text layoutX="206.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The marketplace is where you can view all of the avaliable products from local sellers. You can click &quot;view&quot; to find out more information and click &quot;buy&quot; to add the product to your basket" textAlignment="CENTER" wrappingWidth="348.37430572509766" />
+              </children>
+           </AnchorPane>
+        </content>
+     </Tab>
   </tabs>
 </TabPane>

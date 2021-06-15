@@ -73,9 +73,6 @@ public class MainPageController {
             }
         }
         System.out.println(itemsInMarket);
-//        final Tooltip buyTooltip = new Tooltip();
-//        buyTooltip.setText("Test");
-//        buyBtn1.setTooltip(buyTooltip);
     }
 
 

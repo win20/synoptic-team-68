@@ -19,11 +19,13 @@ public class UserAccount {
     public String getUsername() { return this.username; }
     public String getPassword() { return this.password; }
 
+
     public void setUserId(int userId) { this.id = userId; }
     public void setFname(String fname) { this.fname = fname; }
     public void setLname(String lname) { this.lname = lname; }
     public void setUsername(String username) { this.username = username; }
     public void setPassword(String password) { this.password = password; }
+
 
     UserAccount(int id, String fname, String lname, String username, String password) {
         this.id = id;

@@ -34,19 +34,51 @@ public class MainPageController {
     @FXML Spinner<Integer> stockSpinner;
     SpinnerValueFactory<Integer> svf = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 1);
 
+    @FXML Button buyBtn1;
+
     // Store items added to market
     ArrayList<Item> itemsInMarket = new ArrayList<>();
+    ArrayList<Item> tmpItemsList = new ArrayList<>();
 
     // User account currently loaded and signed into
     public static UserAccount userAccount = new UserAccount();
 
-    Stage stage;
+
+    public static Stage stage;
+
+    Boolean isMarketUpdated;
 
     // Initialize elements that need to be loaded when scene is shown
-    public void initialize() {
+    public void initialize() throws IOException, CsvValidationException {
+        isMarketUpdated = false;
+        tmpItemsList.clear();
         nameTxt.setText(userAccount.getFname() + " " + userAccount.getLname());
         stockSpinner.setValueFactory(svf);
+
+        if (new File("marketData.csv").exists()) {
+            itemsInMarket = DatabaseHandler.LoadMarketData();
+            for (int i = 0; i < itemsInMarket.size(); i++) {
+                Tuple2<Integer, Integer> coordinates = convertIndexToGridCoord(i);
+
+                Pane pane = (Pane) getNodeByCoordinate(coordinates.getX(), coordinates.getY());
+
+                for (Node node : pane.getChildren()) {
+                    try {
+                        if (node.getId().equals("nameTxt" + (i + 1))) {
+                            ((Text) node).setText(itemsInMarket.get(i).getItemName());
+                        }
+                    } catch (NullPointerException ignored) {
+                    }
+                }
+            }
+        }
+        System.out.println(itemsInMarket);
+//        final Tooltip buyTooltip = new Tooltip();
+//        buyTooltip.setText("Test");
+//        buyBtn1.setTooltip(buyTooltip);
     }
+
+
 
     // Switch to welcome screen
     public void switchToWelcomeScreen(MouseEvent event) throws IOException {
@@ -59,6 +91,9 @@ public class MainPageController {
 
     // Method is called when user clicks on logout button
     public void LogOutOnClick(MouseEvent event) throws IOException {
+        if (isMarketUpdated) {
+            DatabaseHandler.StoreMarketData(tmpItemsList);
+        }
         switchToWelcomeScreen(event);
     }
 
@@ -78,35 +113,61 @@ public class MainPageController {
         else column = GridPane.getColumnIndex(pane);
 
         int itemToUpdateIdx = 3 * row + column;  // convert grid coordinates to flat index
-        Item itemToUpdate = itemsInMarket.get(itemToUpdateIdx);
+
+        Item itemToUpdate = new Item();
+        boolean isFilled = false;
+        try {
+            itemToUpdate = itemsInMarket.get(itemToUpdateIdx);
+            isFilled = true;
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("No item to view...");
+            isFilled = false;
+        }
+
         // *************
 
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(stage);
-        VBox dialogVbox = new VBox(20);
+        if (isFilled) {
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.initOwner(stage);
+            VBox dialogVbox = new VBox(20);
 
-        Text titleTxt = new Text(itemToUpdate.getItemName());
-        titleTxt.setTextAlignment(TextAlignment.CENTER);
-        titleTxt.setStyle("-fx-font-size: 18px; -fx-font-weight: 800;");
+            Text titleTxt = new Text(itemToUpdate.getItemName());
+            titleTxt.setTextAlignment(TextAlignment.CENTER);
+            titleTxt.setStyle("-fx-font-size: 18px; -fx-font-weight: 800;");
 
-        Text descTxt = new Text("Description: " + itemToUpdate.getItemDesc());
-        descTxt.setTextAlignment(TextAlignment.CENTER);
+            Text descTxt = new Text("Description: " + itemToUpdate.getItemDesc());
+            descTxt.setTextAlignment(TextAlignment.CENTER);
 
-        Text stockTxt = new Text("Stock: " + itemToUpdate.getStock());
-        stockTxt.setTextAlignment(TextAlignment.CENTER);
+            Text stockTxt = new Text("Stock: " + itemToUpdate.getStock());
+            stockTxt.setTextAlignment(TextAlignment.CENTER);
 
-        Text sellerTxt = new Text("Seller: " + itemToUpdate.getItemOwner());
-        sellerTxt.setTextAlignment(TextAlignment.CENTER);
+            Text sellerTxt = new Text("Seller: " + itemToUpdate.getItemOwner());
+            sellerTxt.setTextAlignment(TextAlignment.CENTER);
 
-        Text priceTxt = new Text("Price: S/" + itemToUpdate.getItemCost());
-        priceTxt.setTextAlignment(TextAlignment.CENTER);
+            Text priceTxt = new Text("Price: S/" + itemToUpdate.getItemCost());
+            priceTxt.setTextAlignment(TextAlignment.CENTER);
 
-        dialogVbox.getChildren().addAll(titleTxt, descTxt, stockTxt, sellerTxt, priceTxt);
-        dialogVbox.setAlignment(Pos.CENTER);
+            dialogVbox.getChildren().addAll(titleTxt, descTxt, stockTxt, sellerTxt, priceTxt);
+            dialogVbox.setAlignment(Pos.CENTER);
 
-        Scene dialogScene = new Scene(dialogVbox, 300, 200);
-        dialog.setScene(dialogScene);
-        dialog.show();
+            Scene dialogScene = new Scene(dialogVbox, 300, 200);
+            dialog.setScene(dialogScene);
+            dialog.show();
+        } else {
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.initOwner(stage);
+            VBox dialogVbox = new VBox(20);
+
+            Text mainTxt = new Text("No item in this slot...");
+            mainTxt.setStyle("-fx-font-size: 24px; -fx-font-weight: 800;");
+
+            dialogVbox.setAlignment(Pos.CENTER);
+            dialogVbox.getChildren().add(mainTxt);
+
+            Scene dialogScene = new Scene(dialogVbox, 300, 200);
+            dialog.setScene(dialogScene);
+            dialog.show();
+        }
     }
 
     // Method called when sell button is clicked
@@ -118,15 +179,11 @@ public class MainPageController {
                 Integer.parseInt(itemPriceField.getText()), stockSpinner.getValue());
 
         itemsInMarket.add(item);
+        tmpItemsList.add(item);
         int itemToAddIdx = itemsInMarket.size() - 1; // get index of item to convert into grid coordinates
 
         // create tuple of coordinates from index
         Tuple2<Integer, Integer> coordinates = convertIndexToGridCoord(itemToAddIdx);
-
-        // if x or y is 0 convert it to null, null is used when searching for correct pane using coordinates..
-        // ..method used to find pane stores 0s as null to save space
-        if (coordinates.getX() == 0) coordinates.setX(null);
-        if (coordinates.getY() == 0) coordinates.setY(null);
 
         // get pane to be added to
         Pane pane = (Pane) getNodeByCoordinate(coordinates.getX(), coordinates.getY());
@@ -140,6 +197,54 @@ public class MainPageController {
             } catch (NullPointerException ignored) {
             }
         }
+
+        isMarketUpdated = true;
+    }
+
+    public void updateMarketGrid() {
+        Tuple2<Integer, Integer> coordinates;
+        Pane pane;
+
+        for (int i = 0; i < itemsInMarket.size(); i++) {
+            coordinates = convertIndexToGridCoord(i);
+            pane = (Pane) getNodeByCoordinate(coordinates.getX(), coordinates.getY());
+
+            Item item = itemsInMarket.get(i);
+            for (Node node : pane.getChildren()) {
+                try {
+                    if (node.getId().equals("nameTxt" + (i + 1))) {
+                        ((Text) node).setText(item.getItemName());
+                    }
+                } catch (NullPointerException ignored) {
+                }
+            }
+        }
+
+//        for (int i = 0; i < marketGridPane.getChildren().size(); i++) {
+//            Pane pane1 = (Pane) marketGridPane.getChildren().get(i);
+//            for (Node node : pane1.getChildren()) {
+//                try {
+//                    if (node.getId().equals("nameTxt" + (i + 1))) {
+//                        ((Text) node).setText(item.getItemName());
+//                    }
+//                } catch (NullPointerException ignored) {
+//                }
+//            }
+//
+//        }
+
+        for (int i = itemsInMarket.size(); i < marketGridPane.getChildren().size(); i++) {
+            Pane pane1 = (Pane) marketGridPane.getChildren().get(i);
+            for (Node node : pane1.getChildren()) {
+                try {
+                    if (node.getId().equals("nameTxt" + (i + 1))) {
+                        ((Text) node).setText("Empty slot...");
+                    }
+                } catch (NullPointerException ignored) {
+                }
+            }
+
+        }
     }
 
     // Returns a Tuple2 item containing coordinates x and y calculated from a flat index.
@@ -149,8 +254,6 @@ public class MainPageController {
         float tmp = (float) idx / numOfRows;
         int x = idx % numOfRows;
         int y = (int) Math.floor(tmp);
-
-//        Tuple2<Integer, Integer> coord = new Tuple2<>(x, y);
 
         return new Tuple2<>(x, y);
     }
@@ -162,8 +265,6 @@ public class MainPageController {
             if (GridPane.getRowIndex(n) == y && GridPane.getColumnIndex(n) == x) {
                 return n;
             }
-
-//            System.out.println(GridPane.getRowIndex(n) + ", " + GridPane.getColumnIndex(n));
         }
         return null;
     }
@@ -196,17 +297,34 @@ public class MainPageController {
 
         Tuple2<Integer, Integer> coordinates = new Tuple2<>(column, row);
 
-        if (coordinates.getX() == 0) coordinates.setX(null);
-        if (coordinates.getY() == 0) coordinates.setY(null);
+        Item item = new Item();
 
         try {
-            itemsInMarket.get(itemToRemoveIdx).removeStock(1);
-//            System.out.println(itemsInMarket.get(itemToRemoveIdx).getStock());
+            item = itemsInMarket.get(itemToRemoveIdx);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("No item to buy in this slot...");
+        }
 
+        try {
+            item.removeStock(1);
+            if (item.getStock() == 0) {
+                itemsInMarket.remove(itemToRemoveIdx);
+
+                for (Node node : ((Pane)pane).getChildren()) {
+                    try {
+                        if (node.getId().equals("nameTxt" + (itemToRemoveIdx + 1))) {
+                            updateMarketGrid();
+                            DatabaseHandler.StoreMarketData(itemsInMarket);
+                        }
+                    } catch (NullPointerException ignored) {
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         } catch (IndexOutOfBoundsException e) {
             System.out.println("No item in this slot");
         }
-
     }
 
     // Custom Tuple2 class used to store grid coordinates
@@ -215,9 +333,16 @@ public class MainPageController {
         private K x;
         private V y;
 
+        // if x or y is 0 convert it to null, null is used when searching for correct pane using coordinates..
+        // ..method used to find pane stores 0s as null to save space
         public Tuple2(K x, V y){
-            this.x = x;
-            this.y = y;
+            if ((int)x == 0) this.x = null;
+            else this.x = x;
+
+            if ((int)y == 0) this.y = null;
+            else this.y = y;
+//            this.x = x;
+//            this.y = y;
         }
 
         @Override
@@ -229,7 +354,6 @@ public class MainPageController {
         }
 
         // getters and setters
-
         public K getX() {
             return x;
         }
@@ -239,11 +363,15 @@ public class MainPageController {
         }
 
         public void setX(K x) {
-            this.x = x;
+            if ((int)x == 0) this.x = null;
+            else this.x = x;
+//            this.x = x;
         }
 
         public void setY(V y) {
-            this.y = y;
+            if ((int)y == 0) this.y = null;
+            else this.y = y;
+//            this.y = y;
         }
     }
 }

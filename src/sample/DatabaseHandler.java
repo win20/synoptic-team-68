@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class DatabaseHandler {
 
@@ -255,9 +256,38 @@ public class DatabaseHandler {
         return returnValue;
     }
 
+    public static void StoreMarketData(ArrayList<Item> itemsInMarket) throws IOException {
+        String csvPath = "marketData.csv";
+        CSVWriter appendWriter = new CSVWriter(new FileWriter(csvPath, false));
+
+        for (Item item : itemsInMarket) {
+            String[] record = item.returnItemData().split(",");
+            appendWriter.writeNext(record);
+        }
+
+        appendWriter.close();
+    }
+
+    public static ArrayList<Item> LoadMarketData() throws IOException, CsvValidationException {
+        FileReader fileReader = new FileReader("marketData.csv");
+        CSVReader CSVreader = new CSVReader(fileReader);
+        String[] nextRecord;
+
+        ArrayList<Item> returnedList = new ArrayList<>();
+        while ((nextRecord = CSVreader.readNext()) != null) {
+            Item item = new Item(nextRecord[0], nextRecord[1], nextRecord[2], Integer.parseInt(nextRecord[3]),
+                    Integer.parseInt(nextRecord[4]), nextRecord[5]);
+            returnedList.add(item);
+        }
+
+        return returnedList;
+    }
+
     public static byte[] salt;
     public static void main(String[] args) throws Exception
     {
         CheckUsernameExist("test", "users.csv");
+
+//        System.out.println(MainPageController.itemsInMarket);
     }
 }

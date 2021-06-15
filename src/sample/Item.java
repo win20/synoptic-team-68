@@ -15,6 +15,9 @@ public class Item {
     private String itemName, itemDesc, itemOwner, itemID ;
     private int itemCost, stock;
 
+    // Default constructor for initialising empty Items
+    public Item() {}
+
     public Item(String ItemName,String ItemDesc,String ItemOwner,int ItemCost, int Stock){
         this.itemName = ItemName;
         this.itemDesc = ItemDesc;
@@ -83,6 +86,11 @@ public class Item {
                 ", itemCost=" + itemCost +
                 ", stock=" + stock +
                 '}';
+    }
+
+    // Returns item data in specific format to write to CSV
+    public String returnItemData() {
+        return itemName + "," + itemDesc + "," + itemOwner + "," + itemCost + "," + stock + "," + itemID;
     }
 
 

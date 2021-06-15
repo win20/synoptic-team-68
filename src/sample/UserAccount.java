@@ -12,8 +12,10 @@ public class UserAccount {
 
     private int id;
     private String fname, lname, username, password;
+    private int balance;
 
     public int getUserId() { return this.id; }
+    public int getBalance() {return this.balance; }
     public String getFname() { return this.fname; }
     public String getLname() { return this.lname; }
     public String getUsername() { return this.username; }
@@ -24,13 +26,15 @@ public class UserAccount {
     public void setLname(String lname) { this.lname = lname; }
     public void setUsername(String username) { this.username = username; }
     public void setPassword(String password) { this.password = password; }
+    public void setBalance(int balance) { this.balance = balance; }
 
-    UserAccount(int id, String fname, String lname, String username, String password) {
+    UserAccount(int id, String fname, String lname, String username, String password, int balance) {
         this.id = id;
         this.fname = fname;
         this.lname = lname;
         this.username = username;
         this.password = password;
+        this.balance = balance;
     }
 
     UserAccount(){}
@@ -61,6 +65,16 @@ public class UserAccount {
         }
 
         return hashedPass + "," + formattedSalt;
+    }
+
+    // top up balance from card
+    public void topUpBalance(int amount) {
+        balance = balance + amount;
+    }
+
+    // spend balance when buying item
+    public void deductBalance(int amount) {
+        balance = balance - amount;
     }
 
     static boolean Login(String usernameEntered, String passwordEntered) throws IOException, CsvException {

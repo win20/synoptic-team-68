@@ -37,6 +37,9 @@ public class MainPageController {
     // Store items added to market
     ArrayList<Item> itemsInMarket = new ArrayList<>();
 
+    // Alex - items in basket
+    ArrayList<Item> itemsInBasket = new ArrayList<>();
+
     // User account currently loaded and signed into
     public static UserAccount userAccount = new UserAccount();
 
@@ -193,7 +196,7 @@ public class MainPageController {
 
         int itemToRemoveIdx = 3 * row + column;
         // ****************
-
+        addItemtoBasket(itemsInMarket.get(itemToRemoveIdx));
         Tuple2<Integer, Integer> coordinates = new Tuple2<>(column, row);
 
         if (coordinates.getX() == 0) coordinates.setX(null);
@@ -208,6 +211,54 @@ public class MainPageController {
         }
 
     }
+    
+    // creates new pane in basket grid or increases qty if already in basket
+    public void addItemtoBasket(Item item) {
+        int qty;
+        itemsInBasket.add(item);
+        int itemToAddIdx = itemsInBasket.size() - 1; // get index of item to convert into grid coordinates
+
+        // if item is already in the basket
+        if (itemsInBasket.contains(itemsInMarket.get(itemToAddIdx))) {
+            qty+=1;
+        } else {
+            // add new panel to basket
+            // create tuple of coordinates from index
+            Tuple2<Integer, Integer> coordinates = convertIndexToGridCoord(itemToAddIdx);
+
+            // if x or y is 0 convert it to null, null is used when searching for correct pane using coordinates..
+            // ..method used to find pane stores 0s as null to save space
+            // vertical list x coord always 0
+            coordinates.setX(null);
+            if (coordinates.getY() == 0) coordinates.setY(null);
+
+            // get pane to be added to
+            Pane pane = (Pane) getNodeByCoordinate(coordinates.getX(), coordinates.getY());
+
+            // get Text element that needs to be updated with the name of the item
+            for (Node node : pane.getChildren()) {
+                try {
+                    if (node.getId().equals("bNameTxt" + (itemToAddIdx + 1))) {
+                        ((Text) node).setText(item.getItemName());
+                    }
+                } catch (NullPointerException ignored) {
+                }
+            }
+            totalPriceTxt.setText(sum(itemsInBasket.getItemCost()));
+        }
+    }
+
+    public void onTopUpClickEvent(MouseEvent event) {
+        int amount = topUpAmountTxt.getText();
+        userAccount.topUpBalance(amount);
+        balanceTxt.setText(userAccount.getBalance());
+    }
+
+    public void onCheckoutClickEvent(MouseEvent event) {
+        int amount = totalPriceTxt.getText();
+        userAccount.deductBalance(amount);
+        balanceTxt.setText(userAccount.getBalance());
+    }
 
     // Custom Tuple2 class used to store grid coordinates
     public static class Tuple2<K, V> {
@@ -215,17 +266,14 @@ public class MainPageController {
         private K x;
         private V y;
 
-        public Tuple2(K x, V y){
+        public Tuple2(K x, V y) {
             this.x = x;
             this.y = y;
         }
 
         @Override
         public String toString() {
-            return "Tuple2{" +
-                    "x=" + x +
-                    ", y=" + y +
-                    '}';
+            return "Tuple2{" + "x=" + x + ", y=" + y + '}';
         }
 
         // getters and setters

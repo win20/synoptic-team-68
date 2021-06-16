@@ -3,12 +3,15 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -48,27 +51,24 @@
                                                     <font>
                                                         <Font name="Segoe UI" size="14.0" />
                                                     </font>
-
                                                     <cursor>
                                                         <Cursor fx:constant="HAND" />
                                                     </cursor>
                                        <tooltip>
                                           <Tooltip text="Adds 1 item to your basket" />
-
                                        </tooltip>
-                                                    
                                                 </Button>
-                                    <Button layoutX="134.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#onViewClickEvent" style="-fx-background-color: #ffff;" text="View">
-                                       <font>
-                                          <Font name="Segoe UI" size="14.0" />
-                                       </font>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
+                                                <Button layoutX="134.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#onViewClickEvent" style="-fx-background-color: #ffff;" text="View">
+                                                    <font>
+                                                        <Font name="Segoe UI" size="14.0" />
+                                                    </font>
+                                                    <cursor>
+                                                        <Cursor fx:constant="HAND" />
+                                                    </cursor>
                                        <tooltip>
-                                          <Tooltip text="Check item description" />
+                                          <Tooltip text="View item description" />
                                        </tooltip>
-                                    </Button>
+                                                </Button>
                                             </children>
                                         </Pane>
                                         <Pane fx:id="pane2" style="-fx-background-color: #32302F;" GridPane.columnIndex="1">
@@ -82,24 +82,24 @@
                                                     <font>
                                                         <Font name="Segoe UI" size="14.0" />
                                                     </font>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
+                                                    <cursor>
+                                                        <Cursor fx:constant="HAND" />
+                                                    </cursor>
                                        <tooltip>
                                           <Tooltip text="Adds 1 item to your basket" />
                                        </tooltip>
                                                 </Button>
-                                    <Button layoutX="134.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#onViewClickEvent" style="-fx-background-color: #ffff;" text="View">
-                                       <font>
-                                          <Font name="Segoe UI" size="14.0" />
-                                       </font>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
+                                                <Button layoutX="134.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#onViewClickEvent" style="-fx-background-color: #ffff;" text="View">
+                                                    <font>
+                                                        <Font name="Segoe UI" size="14.0" />
+                                                    </font>
+                                                    <cursor>
+                                                        <Cursor fx:constant="HAND" />
+                                                    </cursor>
                                        <tooltip>
-                                          <Tooltip text="Check item description" />
+                                          <Tooltip text="View item description" />
                                        </tooltip>
-                                    </Button>
+                                                </Button>
                                             </children>
                                         </Pane>
                                         <Pane fx:id="pane3" style="-fx-background-color: #32302F;" GridPane.columnIndex="2">
@@ -113,24 +113,24 @@
                                                     <font>
                                                         <Font name="Segoe UI" size="14.0" />
                                                     </font>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
+                                                    <cursor>
+                                                        <Cursor fx:constant="HAND" />
+                                                    </cursor>
                                        <tooltip>
-                                          <Tooltip text="Adds 1 item to your basket" />
+                                          <Tooltip text="Add 1 item to basket" />
                                        </tooltip>
                                                 </Button>
-                                    <Button layoutX="134.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#onViewClickEvent" style="-fx-background-color: #ffff;" text="View">
-                                       <font>
-                                          <Font name="Segoe UI" size="14.0" />
-                                       </font>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
+                                                <Button layoutX="134.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#onViewClickEvent" style="-fx-background-color: #ffff;" text="View">
+                                                    <font>
+                                                        <Font name="Segoe UI" size="14.0" />
+                                                    </font>
+                                                    <cursor>
+                                                        <Cursor fx:constant="HAND" />
+                                                    </cursor>
                                        <tooltip>
-                                          <Tooltip text="Check item description" />
+                                          <Tooltip text="View item description" />
                                        </tooltip>
-                                    </Button>
+                                                </Button>
                                             </children>
                                         </Pane>
                                         <Pane fx:id="pane4" style="-fx-background-color: #32302F;" GridPane.rowIndex="1">
@@ -144,24 +144,24 @@
                                                     <font>
                                                         <Font name="Segoe UI" size="14.0" />
                                                     </font>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
+                                                    <cursor>
+                                                        <Cursor fx:constant="HAND" />
+                                                    </cursor>
                                        <tooltip>
-                                          <Tooltip text="Adds 1 item to your basket" />
+                                          <Tooltip text="Adds 1 item to basket" />
                                        </tooltip>
                                                 </Button>
-                                    <Button layoutX="134.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#onViewClickEvent" style="-fx-background-color: #ffff;" text="View">
-                                       <font>
-                                          <Font name="Segoe UI" size="14.0" />
-                                       </font>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
+                                                <Button layoutX="134.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#onViewClickEvent" style="-fx-background-color: #ffff;" text="View">
+                                                    <font>
+                                                        <Font name="Segoe UI" size="14.0" />
+                                                    </font>
+                                                    <cursor>
+                                                        <Cursor fx:constant="HAND" />
+                                                    </cursor>
                                        <tooltip>
-                                          <Tooltip text="Check item description" />
+                                          <Tooltip text="View item description" />
                                        </tooltip>
-                                    </Button>
+                                                </Button>
                                             </children>
                                         </Pane>
                                         <Pane fx:id="pane5" style="-fx-background-color: #32302F;" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -175,24 +175,24 @@
                                                     <font>
                                                         <Font name="Segoe UI" size="14.0" />
                                                     </font>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
+                                                    <cursor>
+                                                        <Cursor fx:constant="HAND" />
+                                                    </cursor>
                                        <tooltip>
-                                          <Tooltip text="Adds 1 item to your basket" />
+                                          <Tooltip text="Adds 1 item to basket" />
                                        </tooltip>
                                                 </Button>
-                                    <Button layoutX="134.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#onViewClickEvent" style="-fx-background-color: #ffff;" text="View">
-                                       <font>
-                                          <Font name="Segoe UI" size="14.0" />
-                                       </font>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
+                                                <Button layoutX="134.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#onViewClickEvent" style="-fx-background-color: #ffff;" text="View">
+                                                    <font>
+                                                        <Font name="Segoe UI" size="14.0" />
+                                                    </font>
+                                                    <cursor>
+                                                        <Cursor fx:constant="HAND" />
+                                                    </cursor>
                                        <tooltip>
-                                          <Tooltip text="Check item description" />
+                                          <Tooltip text="View item description" />
                                        </tooltip>
-                                    </Button>
+                                                </Button>
                                             </children>
                                         </Pane>
                                         <Pane fx:id="pane6" style="-fx-background-color: #32302F;" GridPane.columnIndex="2" GridPane.rowIndex="1">
@@ -206,24 +206,24 @@
                                                     <font>
                                                         <Font name="Segoe UI" size="14.0" />
                                                     </font>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
+                                                    <cursor>
+                                                        <Cursor fx:constant="HAND" />
+                                                    </cursor>
                                        <tooltip>
-                                          <Tooltip text="Adds 1 item to your basket" />
+                                          <Tooltip text="Adds 1 item to basket" />
                                        </tooltip>
                                                 </Button>
-                                    <Button layoutX="134.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#onViewClickEvent" style="-fx-background-color: #ffff;" text="View">
-                                       <font>
-                                          <Font name="Segoe UI" size="14.0" />
-                                       </font>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
+                                                <Button layoutX="134.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#onViewClickEvent" style="-fx-background-color: #ffff;" text="View">
+                                                    <font>
+                                                        <Font name="Segoe UI" size="14.0" />
+                                                    </font>
+                                                    <cursor>
+                                                        <Cursor fx:constant="HAND" />
+                                                    </cursor>
                                        <tooltip>
-                                          <Tooltip text="Check item description" />
+                                          <Tooltip text="View item description" />
                                        </tooltip>
-                                    </Button>
+                                                </Button>
                                             </children>
                                         </Pane>
                                         <Pane fx:id="pane7" layoutX="524.0" layoutY="191.0" style="-fx-background-color: #32302F;" GridPane.rowIndex="2">
@@ -237,24 +237,24 @@
                                                     <font>
                                                         <Font name="Segoe UI" size="14.0" />
                                                     </font>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
+                                                    <cursor>
+                                                        <Cursor fx:constant="HAND" />
+                                                    </cursor>
                                        <tooltip>
-                                          <Tooltip text="Adds 1 item to your basket" />
+                                          <Tooltip text="Adds 1 item to basket" />
                                        </tooltip>
                                                 </Button>
-                                    <Button layoutX="134.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#onViewClickEvent" style="-fx-background-color: #ffff;" text="View">
-                                       <font>
-                                          <Font name="Segoe UI" size="14.0" />
-                                       </font>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
+                                                <Button layoutX="134.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#onViewClickEvent" style="-fx-background-color: #ffff;" text="View">
+                                                    <font>
+                                                        <Font name="Segoe UI" size="14.0" />
+                                                    </font>
+                                                    <cursor>
+                                                        <Cursor fx:constant="HAND" />
+                                                    </cursor>
                                        <tooltip>
-                                          <Tooltip text="Check item description" />
+                                          <Tooltip text="View item description" />
                                        </tooltip>
-                                    </Button>
+                                                </Button>
                                             </children>
                                         </Pane>
                                         <Pane fx:id="pane8" layoutX="20.0" layoutY="372.0" style="-fx-background-color: #32302F;" GridPane.columnIndex="1" GridPane.rowIndex="2">
@@ -268,24 +268,24 @@
                                                     <font>
                                                         <Font name="Segoe UI" size="14.0" />
                                                     </font>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
+                                                    <cursor>
+                                                        <Cursor fx:constant="HAND" />
+                                                    </cursor>
                                        <tooltip>
-                                          <Tooltip text="Adds 1 item to your basket" />
+                                          <Tooltip text="Adds 1 item to basket" />
                                        </tooltip>
                                                 </Button>
-                                    <Button layoutX="134.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#onViewClickEvent" style="-fx-background-color: #ffff;" text="View">
-                                       <font>
-                                          <Font name="Segoe UI" size="14.0" />
-                                       </font>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
+                                                <Button layoutX="134.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#onViewClickEvent" style="-fx-background-color: #ffff;" text="View">
+                                                    <font>
+                                                        <Font name="Segoe UI" size="14.0" />
+                                                    </font>
+                                                    <cursor>
+                                                        <Cursor fx:constant="HAND" />
+                                                    </cursor>
                                        <tooltip>
-                                          <Tooltip text="Check item description" />
+                                          <Tooltip text="View item description" />
                                        </tooltip>
-                                    </Button>
+                                                </Button>
                                             </children>
                                         </Pane>
                                         <Pane fx:id="pane9" layoutX="272.0" layoutY="372.0" style="-fx-background-color: #32302F;" GridPane.columnIndex="2" GridPane.rowIndex="2">
@@ -299,24 +299,24 @@
                                                     <font>
                                                         <Font name="Segoe UI" size="14.0" />
                                                     </font>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
+                                                    <cursor>
+                                                        <Cursor fx:constant="HAND" />
+                                                    </cursor>
                                        <tooltip>
-                                          <Tooltip text="Adds 1 item to your basket" />
+                                          <Tooltip text="Adds 1 item to basket" />
                                        </tooltip>
                                                 </Button>
-                                    <Button layoutX="134.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#onViewClickEvent" style="-fx-background-color: #ffff;" text="View">
-                                       <font>
-                                          <Font name="Segoe UI" size="14.0" />
-                                       </font>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
+                                                <Button layoutX="134.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#onViewClickEvent" style="-fx-background-color: #ffff;" text="View">
+                                                    <font>
+                                                        <Font name="Segoe UI" size="14.0" />
+                                                    </font>
+                                                    <cursor>
+                                                        <Cursor fx:constant="HAND" />
+                                                    </cursor>
                                        <tooltip>
-                                          <Tooltip text="Check item description" />
+                                          <Tooltip text="View iterm description" />
                                        </tooltip>
-                                    </Button>
+                                                </Button>
                                             </children>
                                         </Pane>
                                     </children>
@@ -334,65 +334,284 @@
                                 <Font name="Segoe UI" size="36.0" />
                             </font>
                         </Text>
+                  <Text layoutX="561.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sort: " />
+                  <ComboBox fx:id="marketComboBox" layoutX="600.0" layoutY="35.0" onAction="#comboOnAction" prefWidth="150.0" />
                     </children>
                 </AnchorPane>
             </content>
         </Tab>
 
-        <Tab text="Basket" />
+        <Tab text="Basket">
+            <content>
+                <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                    <children>
+                        <GridPane id="basketGridPane" fx:id="basketGridPane" layoutX="117.0" layoutY="101.0" prefHeight="507.0" prefWidth="531.0">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+                            <children>
+                                <Pane style="-fx-background-color: #32302F;">
+                                    <children>
+                                        <ImageView fitHeight="92.0" fitWidth="142.0" pickOnBounds="true">
+                                            <image>
+<!--                                                <Image url="@../../img/fish1.jpg" />-->
+                                            </image>
+                                        </ImageView>
+                                        <Text fx:id="bNameTxt1" fill="WHITE" layoutX="150.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0">
+                                            <font>
+                                                <Font name="Segoe UI" size="18.0" />
+                                            </font>
+                                        </Text>
+                                        <Text fx:id="priceTxt1" fill="WHITE" layoutX="150.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0">
+                                            <font>
+                                                <Font name="Segoe UI" size="18.0" />
+                                            </font>
+                                        </Text>
+                              <Text fx:id="qtyTxt1" fill="WHITE" layoutX="470.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Text>
+                                    </children>
+                                    <opaqueInsets>
+                                        <Insets />
+                                    </opaqueInsets>
+                                    <GridPane.margin>
+                                        <Insets bottom="10.0" />
+                                    </GridPane.margin>
+                                </Pane>
+                                <Pane style="-fx-background-color: #32302F;" GridPane.rowIndex="1">
+                                    <children>
+                                        <ImageView fitHeight="92.0" fitWidth="142.0" pickOnBounds="true">
+                                            <image>
+<!--                                                <Image url="@../../img/fish2.jpg" />-->
+                                            </image>
+                                        </ImageView>
+                                        <Text fx:id="bNameTxt2" fill="WHITE" layoutX="152.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0">
+                                            <font>
+                                                <Font name="Segoe UI" size="18.0" />
+                                            </font>
+                                        </Text>
+                                        <Text fx:id="priceTxt2" fill="WHITE" layoutX="152.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0">
+                                            <font>
+                                                <Font name="Segoe UI" size="18.0" />
+                                            </font>
+                                        </Text>
+                              <Text fx:id="qtyTxt2" fill="WHITE" layoutX="470.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Text>
+                                    </children>
+                                    <GridPane.margin>
+                                        <Insets bottom="10.0" />
+                                    </GridPane.margin>
+                                </Pane>
+                                <Pane style="-fx-background-color: #32302F;" GridPane.rowIndex="2">
+                                    <children>
+                                        <ImageView fitHeight="91.0" fitWidth="142.0" pickOnBounds="true">
+                                            <image>
+<!--                                                <Image url="@../../img/fish3.jpg" />-->
+                                            </image>
+                                        </ImageView>
+                                        <Text fx:id="bNameTxt3" fill="WHITE" layoutX="153.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0">
+                                            <font>
+                                                <Font name="Segoe UI" size="18.0" />
+                                            </font>
+                                        </Text>
+                                        <Text fx:id="priceTxt3" fill="WHITE" layoutX="153.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0">
+                                            <font>
+                                                <Font name="Segoe UI" size="18.0" />
+                                            </font>
+                                        </Text>
+                              <Text fx:id="qtyTxt3" fill="WHITE" layoutX="470.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Text>
+                                    </children>
+                                    <GridPane.margin>
+                                        <Insets bottom="10.0" />
+                                    </GridPane.margin>
+                                </Pane>
+                                <Pane style="-fx-background-color: #32302F;" GridPane.rowIndex="3">
+                                    <GridPane.margin>
+                                        <Insets bottom="10.0" />
+                                    </GridPane.margin>
+                                    <children>
+                              <Text fx:id="bNameTxt4" fill="WHITE" layoutX="153.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0">
+                                 <font>
+                                    <Font name="Segoe UI" size="18.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="priceTxt4" fill="WHITE" layoutX="153.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0">
+                                 <font>
+                                    <Font name="Segoe UI" size="18.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="qtyTxt4" fill="WHITE" layoutX="470.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Text>
+                                    </children>
+                                </Pane>
+                                <Pane style="-fx-background-color: #32302F;" GridPane.rowIndex="4">
+                                    <GridPane.margin>
+                                        <Insets bottom="10.0" />
+                                    </GridPane.margin>
+                                    <children>
+                              <Text fx:id="bNameTxt5" fill="WHITE" layoutX="153.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0">
+                                 <font>
+                                    <Font name="Segoe UI" size="18.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="priceTxt5" fill="WHITE" layoutX="153.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0">
+                                 <font>
+                                    <Font name="Segoe UI" size="18.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="qtyTxt5" fill="WHITE" layoutX="470.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Text>
+                                    </children>
+                                </Pane>
+                            </children>
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                        </GridPane>
+                        <Text layoutX="82.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="In your basket:">
+                            <font>
+                                <Font size="24.0" />
+                            </font>
+                        </Text>
+                        <Button layoutX="549.0" layoutY="632.0" mnemonicParsing="false" onMouseClicked="#CheckoutOnClickEvent" text="Checkout">
+                            <font>
+                                <Font name="Segoe UI" size="18.0" />
+                            </font>
+                        </Button>
+                        <Text layoutX="117.0" layoutY="654.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total:">
+                            <font>
+                                <Font name="Segoe UI" size="18.0" />
+                            </font>
+                        </Text>
+                        <Text fx:id="totalCostTxt" layoutX="193.0" layoutY="656.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                            <font>
+                                <Font name="Segoe UI" size="18.0" />
+                            </font>
+                        </Text>
+                    </children>
+                </AnchorPane>
+            </content></Tab>
         <Tab text="Sell">
-         <content>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <AnchorPane layoutX="17.0" layoutY="18.0" prefHeight="685.0" prefWidth="730.0">
-                     <children>
-                        <TextField fx:id="itemNameField" layoutX="285.0" layoutY="124.0" promptText="Salmon" />
-                        <TextField fx:id="itemPriceField" layoutX="285.0" layoutY="256.0" promptText="Price" />
-                        <Button layoutX="338.0" layoutY="387.0" mnemonicParsing="false" onMouseClicked="#sellOnclickEvent" text="Sell">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Button>
-                        <TextField fx:id="itemDescField" layoutX="285.0" layoutY="191.0" promptText="Some Description" />
-                        <Spinner fx:id="stockSpinner" layoutX="285.0" layoutY="320.0" />
-                        <Text layoutX="336.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Item name" />
-                        <Text layoutX="321.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Item description" />
-                        <Text layoutX="351.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price" />
-                        <Text layoutX="351.0" layoutY="311.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stock" />
-                        <Text layoutX="307.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sell an item">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Text>
-                        <Button layoutX="304.0" layoutY="453.0" mnemonicParsing="false" onMouseClicked="#removeOnClickEvent" text="Remove test">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Button>
-                     </children>
-                  </AnchorPane>
-               </children>
-            </AnchorPane>
-         </content></Tab>
+            <content>
+                <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                    <children>
+                        <AnchorPane layoutX="17.0" layoutY="18.0" prefHeight="685.0" prefWidth="730.0">
+                            <children>
+                                <TextField fx:id="itemNameField" layoutX="285.0" layoutY="124.0" promptText="Salmon" />
+                                <TextField fx:id="itemPriceField" layoutX="285.0" layoutY="256.0" promptText="Price" />
+                                <Button layoutX="338.0" layoutY="387.0" mnemonicParsing="false" onMouseClicked="#sellOnclickEvent" text="Sell">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                </Button>
+                                <TextField fx:id="itemDescField" layoutX="285.0" layoutY="191.0" promptText="Some Description" />
+                                <Spinner fx:id="stockSpinner" layoutX="285.0" layoutY="320.0" />
+                                <Text layoutX="336.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Item name" />
+                                <Text layoutX="321.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Item description" />
+                                <Text layoutX="351.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price" />
+                                <Text layoutX="351.0" layoutY="311.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stock" />
+                                <Text layoutX="307.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sell an item">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                        </AnchorPane>
+                    </children>
+                </AnchorPane>
+            </content></Tab>
         <Tab text="My account">
-         <content>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <AnchorPane layoutX="30.0" layoutY="26.0" prefHeight="439.0" prefWidth="705.0">
-                     <children>
-                        <Button layoutX="325.0" layoutY="372.0" mnemonicParsing="false" onMouseClicked="#LogOutOnClick" text="Log out">
-                           <tooltip>
-                              <Tooltip text="Adds 1 item to your basket" />
-                           </tooltip></Button>
-                        <Text fx:id="nameTxt" fill="#606060" layoutX="304.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Full Name">
+            <content>
+                <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                    <children>
+                        <AnchorPane layoutX="30.0" layoutY="26.0" prefHeight="439.0" prefWidth="705.0">
+                            <children>
+                                <Button layoutX="325.0" layoutY="372.0" mnemonicParsing="false" onMouseClicked="#LogOutOnClick" text="Log out" />
+                                <Text fx:id="nameTxt" fill="#606060" layoutX="304.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Full Name">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+                                </Text>
+                                <Text fill="#606060" layoutX="228.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Balance:">
+                                    <font>
+                                        <Font name="Segoe UI" size="18.0" />
+                                    </font>
+                                </Text>
+                                <Text fx:id="balanceTxt" fill="#606060" layoutX="399.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                                    <font>
+                                        <Font name="Segoe UI" size="18.0" />
+                                    </font>
+                                </Text>
+                        <Text fill="#606060" layoutX="228.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username: ">
                            <font>
-                              <Font size="24.0" />
+                              <Font name="Segoe UI" size="18.0" />
                            </font>
                         </Text>
-                     </children>
-                  </AnchorPane>
-               </children>
-            </AnchorPane>
-         </content></Tab>
+                        <Text fx:id="usernameTxt" fill="#606060" layoutX="399.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="username">
+                           <font>
+                              <Font name="Segoe UI" size="18.0" />
+                           </font>
+                        </Text>
+                            </children>
+                        </AnchorPane>
+                    </children>
+                </AnchorPane>
+            </content></Tab>
+        <Tab text="Top-up">
+            <content>
+                <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                    <children>
+                        <AnchorPane layoutX="17.0" layoutY="18.0" prefHeight="685.0" prefWidth="730.0">
+                            <children>
+                                <TextField fx:id="cardNameField" layoutX="296.0" layoutY="210.0" promptText="Name on Card" />
+                                <Button fx:id="topUpBtn" layoutX="333.0" layoutY="485.0" mnemonicParsing="false" onMouseClicked="#topUpOnClickEvent" text="Top up">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                </Button>
+                                <TextField fx:id="cardNumField" layoutX="296.0" layoutY="280.0" promptText="Card Number" />
+                                <Text layoutX="332.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name on Card" />
+                                <Text layoutX="339.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Card Number" />
+                                <Text layoutX="254.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Expiration" />
+                                <Text layoutX="437.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Security Code" />
+                                <Text layoutX="233.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add funds to your account">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+                                </Text>
+                                <DatePicker layoutX="216.0" layoutY="350.0" prefHeight="26.0" prefWidth="129.0" promptText="DD/MM/YYYY" />
+                                <TextField layoutX="455.0" layoutY="350.0" prefHeight="26.0" prefWidth="40.0" promptText="123" />
+                                <TextField fx:id="topUpAmountTxt" layoutX="296.0" layoutY="140.0" promptText="Amount" />
+                                <Text fx:id="Amount" layoutX="336.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name on Card" />
+                        <TextField fx:id="topUpTxt" layoutX="327.0" layoutY="420.0" prefHeight="26.0" prefWidth="88.0" promptText="1000" />
+                        <Text layoutX="329.0" layoutY="410.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Top up balance" />
+                            </children>
+                        </AnchorPane>
+                    </children>
+                </AnchorPane>
+            </content>
+        </Tab>
     </tabs>
 </TabPane>

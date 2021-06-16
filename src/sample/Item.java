@@ -13,7 +13,7 @@ public class Item {
     //ItemID is unqiue, combination of itemName and ItemOwner
 
     private String itemName, itemDesc, itemOwner, itemID ;
-    private int itemCost, stock;
+    private int itemCost, stock, amountInBasket;
 
     // Default constructor for initialising empty Items
     public Item() {}
@@ -25,6 +25,7 @@ public class Item {
         this.itemCost = ItemCost;
         this.stock = Stock;
         this.itemID = ItemName+ItemOwner;
+        this.amountInBasket = 0;
     }
 
     //constructor that reads from csv
@@ -35,6 +36,7 @@ public class Item {
         this.itemCost = ItemCost;
         this.stock = Stock;
         this.itemID = ItemID;
+        this.amountInBasket = 0;
     }
 
     //accessors
@@ -54,6 +56,7 @@ public class Item {
         return itemDesc;
     }
     public String getItemOwner() { return itemOwner; }
+    public int getAmountInBasket() { return amountInBasket; }
 
     //Mutators
     public void setItemName(String itemName) {
@@ -74,8 +77,8 @@ public class Item {
     public void setStock(int stock) {
         this.stock = stock;
     }
+    public void setAmountInBasket(int amountInBasket) { this.amountInBasket = amountInBasket; }
 
-    //Tostring
     @Override
     public String toString() {
         return "Item{" +
@@ -85,7 +88,12 @@ public class Item {
                 ", itemID='" + itemID + '\'' +
                 ", itemCost=" + itemCost +
                 ", stock=" + stock +
+                ", amountInBasket=" + amountInBasket +
                 '}';
+    }
+
+    public void incrementAmountInBasket(int inc) {
+        amountInBasket += inc;
     }
 
     // Returns item data in specific format to write to CSV
@@ -133,9 +141,6 @@ public class Item {
 //        //Add Stock
 //        testItem.addStock(5);
 //        System.out.println("Have added 5 to stock so should be 10 : " + testItem.getStock());
-
-          MainPageController.Tuple2<Integer, Integer> coord =  MainPageController.convertIndexToGridCoord(0);
-          System.out.println(coord.toString());
 
     }
 }

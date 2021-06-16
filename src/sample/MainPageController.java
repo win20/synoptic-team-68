@@ -2,6 +2,7 @@ package sample;
 
 import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -30,37 +31,52 @@ public class MainPageController {
     // References to elements on the screen
     @FXML Text nameTxt;
     @FXML TextField itemNameField, itemDescField, itemPriceField;
-    @FXML GridPane marketGridPane;
+    @FXML GridPane marketGridPane, basketGridPane;
     @FXML Spinner<Integer> stockSpinner;
     SpinnerValueFactory<Integer> svf = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 1);
 
-    @FXML Button buyBtn1;
+    @FXML Text balanceTxt, usernameTxt;
+    @FXML TextField topUpTxt;
+    @FXML ComboBox<String> marketComboBox;
+    static final String ALPHABETICAL_SORT_TXT = "A-Z";
+    static final String PRICE_SORT_TXT = "Price (low - high)";
+
+    @FXML Text totalCostTxt;
 
     // Store items added to market
     ArrayList<Item> itemsInMarket = new ArrayList<>();
     ArrayList<Item> tmpItemsList = new ArrayList<>();
+    ArrayList<Item> itemsInBasket = new ArrayList<>();
 
     // User account currently loaded and signed into
     public static UserAccount userAccount = new UserAccount();
 
+    int basketItemQty = 0;
+    int basketTotalPrice = 0;
 
     public static Stage stage;
 
+    // Used to decide whether or not database should be updated
     Boolean isMarketUpdated;
 
-    // Initialize elements that need to be loaded when scene is shown
+    // Initialize elements that need to be loaded when scene is first shown
     public void initialize() throws IOException, CsvValidationException {
         isMarketUpdated = false;
         tmpItemsList.clear();
         nameTxt.setText(userAccount.getFname() + " " + userAccount.getLname());
         stockSpinner.setValueFactory(svf);
+        balanceTxt.setText(String.valueOf(userAccount.getBalance()));
+        basketTotalPrice = 0;
 
+        marketComboBox.getItems().addAll(ALPHABETICAL_SORT_TXT, PRICE_SORT_TXT);
+
+        // Load market data from database and populate the grid
         if (new File("marketData.csv").exists()) {
             itemsInMarket = DatabaseHandler.LoadMarketData();
             for (int i = 0; i < itemsInMarket.size(); i++) {
-                Tuple2<Integer, Integer> coordinates = convertIndexToGridCoord(i);
+                Tuple2<Integer, Integer> coordinates = convertIndexToGridCoord(i, 3);
 
-                Pane pane = (Pane) getNodeByCoordinate(coordinates.getX(), coordinates.getY());
+                Pane pane = (Pane) getNodeByCoordinate(marketGridPane, coordinates.getX(), coordinates.getY());
 
                 for (Node node : pane.getChildren()) {
                     try {
@@ -72,10 +88,9 @@ public class MainPageController {
                 }
             }
         }
-        System.out.println(itemsInMarket);
+
+        usernameTxt.setText(userAccount.getUsername());
     }
-
-
 
     // Switch to welcome screen
     public void switchToWelcomeScreen(MouseEvent event) throws IOException {
@@ -180,10 +195,10 @@ public class MainPageController {
         int itemToAddIdx = itemsInMarket.size() - 1; // get index of item to convert into grid coordinates
 
         // create tuple of coordinates from index
-        Tuple2<Integer, Integer> coordinates = convertIndexToGridCoord(itemToAddIdx);
+        Tuple2<Integer, Integer> coordinates = convertIndexToGridCoord(itemToAddIdx, 3);
 
         // get pane to be added to
-        Pane pane = (Pane) getNodeByCoordinate(coordinates.getX(), coordinates.getY());
+        Pane pane = (Pane) getNodeByCoordinate(marketGridPane, coordinates.getX(), coordinates.getY());
 
         // get Text element that needs to be updated with the name of the item
         for (Node node : pane.getChildren()) {
@@ -198,13 +213,15 @@ public class MainPageController {
         isMarketUpdated = true;
     }
 
+    // Method used to updated the grid whenever the itemsInMarket ArrayList is updated
+    // Used when an item needs to be removed from grid or when sorting is applied
     public void updateMarketGrid() {
         Tuple2<Integer, Integer> coordinates;
         Pane pane;
 
         for (int i = 0; i < itemsInMarket.size(); i++) {
-            coordinates = convertIndexToGridCoord(i);
-            pane = (Pane) getNodeByCoordinate(coordinates.getX(), coordinates.getY());
+            coordinates = convertIndexToGridCoord(i, 3);
+            pane = (Pane) getNodeByCoordinate(marketGridPane, coordinates.getX(), coordinates.getY());
 
             Item item = itemsInMarket.get(i);
             for (Node node : pane.getChildren()) {
@@ -216,19 +233,6 @@ public class MainPageController {
                 }
             }
         }
-
-//        for (int i = 0; i < marketGridPane.getChildren().size(); i++) {
-//            Pane pane1 = (Pane) marketGridPane.getChildren().get(i);
-//            for (Node node : pane1.getChildren()) {
-//                try {
-//                    if (node.getId().equals("nameTxt" + (i + 1))) {
-//                        ((Text) node).setText(item.getItemName());
-//                    }
-//                } catch (NullPointerException ignored) {
-//                }
-//            }
-//
-//        }
 
         for (int i = itemsInMarket.size(); i < marketGridPane.getChildren().size(); i++) {
             Pane pane1 = (Pane) marketGridPane.getChildren().get(i);
@@ -245,8 +249,8 @@ public class MainPageController {
     }
 
     // Returns a Tuple2 item containing coordinates x and y calculated from a flat index.
-    public static Tuple2<Integer, Integer> convertIndexToGridCoord(int idx) {
-        final int numOfRows = 3;
+    public static Tuple2<Integer, Integer> convertIndexToGridCoord(int idx, int numOfRows) {
+//        final int numOfRows = 3;
 
         float tmp = (float) idx / numOfRows;
         int x = idx % numOfRows;
@@ -257,20 +261,13 @@ public class MainPageController {
 
     // Method returns a Node object from its coordinates within the grid, used for linking Item in pane to..
     // ..correct item in ItemsInMarket ArrayList
-    public Node getNodeByCoordinate(Integer x, Integer y) {
-        for (Node n : marketGridPane.getChildren()) {
+    public Node getNodeByCoordinate(GridPane gridPane, Integer x, Integer y) {
+        for (Node n : gridPane.getChildren()) {
             if (GridPane.getRowIndex(n) == y && GridPane.getColumnIndex(n) == x) {
                 return n;
             }
         }
         return null;
-    }
-
-    // Method to test removing last item in market  *** TESTING USE ***
-    public void removeOnClickEvent(MouseEvent event) {
-        itemsInMarket.remove(itemsInMarket.size() - 1);
-        System.out.println();
-        System.out.println(itemsInMarket);
     }
 
     // Method called when user clicks on buy item
@@ -292,7 +289,15 @@ public class MainPageController {
         int itemToRemoveIdx = 3 * row + column;
         // ****************
 
-        Tuple2<Integer, Integer> coordinates = new Tuple2<>(column, row);
+        try {
+            addItemtoBasket(itemsInMarket.get(itemToRemoveIdx));
+        } catch (IndexOutOfBoundsException e) {
+            Alert noItemAlert = new Alert(Alert.AlertType.INFORMATION);
+            noItemAlert.setHeaderText(null);
+            noItemAlert.setTitle(null);
+            noItemAlert.setContentText("This slot is empty...");
+            noItemAlert.showAndWait();
+        }
 
         Item item = new Item();
 
@@ -304,6 +309,7 @@ public class MainPageController {
 
         try {
             item.removeStock(1);
+            DatabaseHandler.StoreMarketData(itemsInMarket);
             if (item.getStock() == 0) {
                 itemsInMarket.remove(itemToRemoveIdx);
 
@@ -319,9 +325,136 @@ public class MainPageController {
                     }
                 }
             }
-        } catch (IndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException | IOException e) {
             System.out.println("No item in this slot");
         }
+
+
+    }
+
+    // Adds onto user's account balance
+    public void topUpOnClickEvent(MouseEvent event) {
+        int topUpAmount = Integer.parseInt(topUpTxt.getText());
+        userAccount.topUpBalance(topUpAmount);
+        balanceTxt.setText(String.valueOf(userAccount.getBalance()));
+        DatabaseHandler.UpdateRecord(userAccount.getUserId(), userAccount);
+    }
+
+    // Controls sorting comboBox, updates grid
+    public void comboOnAction(ActionEvent actionEvent) {
+        if (marketComboBox.getValue().equals(ALPHABETICAL_SORT_TXT)) {
+            itemsInMarket.sort(new AlphabeticalNameSort());
+        } else {
+            itemsInMarket.sort(new PriceSort());
+        }
+        updateMarketGrid();
+    }
+
+    // creates new pane in basket grid or increases qty if already in basket
+    public void addItemtoBasket(Item item) {
+        // if item is already in the basket
+        if (itemsInBasket.contains(item)) {
+            basketItemQty += 1;
+            for (int i = 0; i < itemsInBasket.size(); i++) {
+                if (itemsInBasket.get(i) == item) {
+                    itemsInBasket.get(i).incrementAmountInBasket(1);
+                    Pane pane = (Pane) basketGridPane.getChildren().get(i);
+
+                    for (Node node : pane.getChildren()) {
+                        try {
+                            if (node.getId().equals("priceTxt" + (i + 1))) {
+                                int currentVal = Integer.parseInt(((Text) node).getText());
+                                ((Text) node).setText(String.valueOf(currentVal + item.getItemCost()));
+                            }
+                            if (node.getId().equals("qtyTxt" + (i + 1))) {
+                                int currentVal = Integer.parseInt(((Text) node).getText());
+
+                                ((Text) node).setText(String.valueOf(currentVal + 1));
+                            }
+                        } catch (NullPointerException ignored) {
+                        }
+                    }
+                }
+            }
+
+        } else {
+            itemsInBasket.add(item);
+            basketItemQty = 1;
+            int itemToAddIdx = itemsInBasket.size() - 1; // get index of item to convert into grid coordinates
+            itemsInBasket.get(itemToAddIdx).setAmountInBasket(1);
+
+//            // create tuple of coordinates from index
+//            Tuple2<Integer, Integer> coordinates = convertIndexToGridCoord(itemToAddIdx, 5);
+
+            Pane pane = (Pane) basketGridPane.getChildren().get(itemToAddIdx);
+
+            // get Text element that needs to be updated with the name of the item
+            for (Node node : pane.getChildren()) {
+                try {
+                    if (node.getId().equals("bNameTxt" + (itemToAddIdx + 1))) {
+                        ((Text) node).setText(item.getItemName());
+                    }
+                    if (node.getId().equals("priceTxt" + (itemToAddIdx + 1))) {
+                        ((Text) node).setText(String.valueOf(item.getItemCost()));
+                    }
+                    if (node.getId().equals("qtyTxt" + (itemToAddIdx + 1))) {
+                        ((Text) node).setText("1");
+                    }
+                } catch (NullPointerException ignored) { }
+            }
+        }
+
+        int tmp = 0;
+        for (Item item1 : itemsInBasket) {
+            tmp += (item1.getItemCost() * item1.getAmountInBasket());
+        }
+
+        basketTotalPrice = tmp;
+        totalCostTxt.setText(String.valueOf(basketTotalPrice));
+    }
+
+    // Checks whether user has enough balance, if yes subtract total cost and reset the basket tab and clear itemsInBasket
+    public void CheckoutOnClickEvent(MouseEvent event) {
+        int totalCost = Integer.parseInt(totalCostTxt.getText());
+
+        Alert checkoutAlert = new Alert(Alert.AlertType.INFORMATION);
+        checkoutAlert.setTitle("Checkout information");
+        checkoutAlert.setHeaderText(null);
+        if ((userAccount.getBalance() - totalCost) < 0) {
+            checkoutAlert.setContentText("Your balance is too low...please top up");
+        } else {
+            userAccount.deductBalance(totalCost);
+            balanceTxt.setText(String.valueOf(userAccount.getBalance()));
+
+            itemsInBasket.clear();
+
+            for (int i = 0; i < basketGridPane.getChildren().size(); i++) {
+                Pane pane = (Pane) basketGridPane.getChildren().get(i);
+
+                for (Node node : pane.getChildren()) {
+                    try {
+                        if (node.getId().equals("bNameTxt" + (i + 1))) {
+                            ((Text) node).setText("");
+                            System.out.println(node.getId());
+                        }
+                        if (node.getId().equals("priceTxt" + (i + 1))) {
+                            ((Text) node).setText("");
+                            System.out.println(node.getId());
+                        }
+                        if (node.getId().equals("qtyTxt" + (i + 1))) {
+                            ((Text) node).setText("0");
+                            System.out.println(node.getId());
+                        }
+                    } catch (NullPointerException ignored) { }
+                }
+            }
+
+            totalCostTxt.setText("0");
+            DatabaseHandler.UpdateRecord(userAccount.getUserId(), userAccount);
+            checkoutAlert.setContentText("Payment accepted, " + totalCost + " has been deducted from your account.");
+        }
+
+        checkoutAlert.showAndWait();
     }
 
     // Custom Tuple2 class used to store grid coordinates
@@ -338,8 +471,6 @@ public class MainPageController {
 
             if ((int)y == 0) this.y = null;
             else this.y = y;
-//            this.x = x;
-//            this.y = y;
         }
 
         @Override
@@ -362,13 +493,11 @@ public class MainPageController {
         public void setX(K x) {
             if ((int)x == 0) this.x = null;
             else this.x = x;
-//            this.x = x;
         }
 
         public void setY(V y) {
             if ((int)y == 0) this.y = null;
             else this.y = y;
-//            this.y = y;
         }
     }
 }

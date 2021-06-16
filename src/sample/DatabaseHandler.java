@@ -179,6 +179,7 @@ public class DatabaseHandler {
                 userAccount.setFname(nextRecord[1]);
                 userAccount.setLname(nextRecord[2]);
                 userAccount.setUsername(nextRecord[3]);
+                userAccount.setBalance(Integer.parseInt(nextRecord[4]));
             }
             i += 1;
         }
@@ -281,6 +282,10 @@ public class DatabaseHandler {
         }
 
         return returnedList;
+    }
+
+    public static void UpdateBalance(int userId, int balance) {
+
     }
 
     public static byte[] salt;

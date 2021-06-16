@@ -12,5 +12,6 @@
     <orderEntry type="library" name="commons-lang3-3.1" level="project" />
     <orderEntry type="library" name="javafx-sdk-16" level="project" />
     <orderEntry type="library" name="lib1" level="project" />
+    <orderEntry type="library" name="lib2" level="project" />
   </component>
 </module>

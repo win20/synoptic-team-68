@@ -278,7 +278,9 @@ public class DatabaseHandler {
         while ((nextRecord = CSVreader.readNext()) != null) {
             Item item = new Item(nextRecord[0], nextRecord[1], nextRecord[2], Integer.parseInt(nextRecord[3]),
                     Integer.parseInt(nextRecord[4]), nextRecord[5]);
-            returnedList.add(item);
+            if (item.getStock() != 0) {
+                returnedList.add(item);
+            }
         }
 
         return returnedList;

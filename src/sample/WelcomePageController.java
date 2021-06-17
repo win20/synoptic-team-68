@@ -22,8 +22,13 @@ public class WelcomePageController {
 
     // Increments userID every time a new user is added
     public void incUserID() {
-        int tmp = DatabaseHandler.getLastUserId("users.csv");
-        user_id = tmp + 1;
+        try {
+            int tmp = DatabaseHandler.getLastUserId("users.csv");
+            user_id = tmp + 1;
+        } catch (NumberFormatException e) {
+            user_id = 0;
+        }
+
     }
 
     public UserAccount GetUser() {
@@ -97,7 +102,7 @@ public class WelcomePageController {
                 usernameField.setStyle(null);
                 passwordField.setStyle(null);
 
-                UserAccount userAccount = new UserAccount(user_id, fnameInput, lnameInput, usernameInput, passwordInput);
+                UserAccount userAccount = new UserAccount(user_id, fnameInput, lnameInput, usernameInput, passwordInput, 0);
                 System.out.println(userAccount.toString());
                 try {
                     DatabaseHandler.WriteToCSV(userAccount);
@@ -127,7 +132,12 @@ public class WelcomePageController {
 
     public void loginOnClickEvent(MouseEvent event) throws IOException, CsvException {
         Alert loginAlert = new Alert(Alert.AlertType.INFORMATION);
-        boolean isLoginSuccess = UserAccount.Login(loginUsernameField.getText(), loginPassField.getText());
+        boolean isLoginSuccess = false;
+        try {
+            isLoginSuccess = UserAccount.Login(loginUsernameField.getText(), loginPassField.getText());
+
+        } catch (NullPointerException ignored) {
+        }
         loginAlert.setTitle("Login Information");
         loginAlert.setHeaderText(null);
 
@@ -146,8 +156,6 @@ public class WelcomePageController {
             loginAlert.setContentText("Login Failed");
             loginAlert.showAndWait();
         }
-
-
     }
 
     public void switchToMainScreen(MouseEvent event) throws IOException {

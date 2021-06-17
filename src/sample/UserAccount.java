@@ -10,7 +10,7 @@ public class UserAccount {
     public static byte[] saltOut;
     public static byte[] saltIn;
 
-    private int id;
+    private int id, balance;
     private String fname, lname, username, password;
 
     public int getUserId() { return this.id; }
@@ -18,21 +18,22 @@ public class UserAccount {
     public String getLname() { return this.lname; }
     public String getUsername() { return this.username; }
     public String getPassword() { return this.password; }
-
+    public int getBalance() {return this.balance; }
 
     public void setUserId(int userId) { this.id = userId; }
     public void setFname(String fname) { this.fname = fname; }
     public void setLname(String lname) { this.lname = lname; }
     public void setUsername(String username) { this.username = username; }
     public void setPassword(String password) { this.password = password; }
+    public void setBalance(int balance) { this.balance = balance; }
 
-
-    UserAccount(int id, String fname, String lname, String username, String password) {
+    UserAccount(int id, String fname, String lname, String username, String password, int balance) {
         this.id = id;
         this.fname = fname;
         this.lname = lname;
         this.username = username;
         this.password = password;
+        this.balance = balance;
     }
 
     UserAccount(){}
@@ -41,6 +42,7 @@ public class UserAccount {
     public String toString() {
         return "UserAccount{" +
                 "id=" + id +
+                ", balance=" + balance +
                 ", fname='" + fname + '\'' +
                 ", lname='" + lname + '\'' +
                 ", username='" + username + '\'' +
@@ -49,7 +51,17 @@ public class UserAccount {
     }
 
     public String getUserInfo() {
-        return id + "," + fname + "," + lname + "," + username ;
+        return id + "," + fname + "," + lname + "," + username + "," + balance ;
+    }
+
+    // top up balance from card
+    public void topUpBalance(int amount) {
+        balance = balance + amount;
+    }
+
+    // spend balance when buying item
+    public void deductBalance(int amount) {
+        balance = balance - amount;
     }
 
     static String returnHashedPassword(String passToHash) throws IOException, NoSuchAlgorithmException {

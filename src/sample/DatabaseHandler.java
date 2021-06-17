@@ -259,7 +259,7 @@ public class DatabaseHandler {
 
     public static void StoreMarketData(ArrayList<Item> itemsInMarket) throws IOException {
         String csvPath = "marketData.csv";
-        CSVWriter appendWriter = new CSVWriter(new FileWriter(csvPath, true));
+        CSVWriter appendWriter = new CSVWriter(new FileWriter(csvPath, false));
 
         for (Item item : itemsInMarket) {
             String[] record = item.returnItemData().split(",");

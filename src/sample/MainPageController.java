@@ -81,16 +81,19 @@ public class MainPageController {
             for (int i = 0; i < itemsInMarket.size(); i++) {
                 Tuple2<Integer, Integer> coordinates = convertIndexToGridCoord(i, 3);
 
-                Pane pane = (Pane) getNodeByCoordinate(marketGridPane, coordinates.getX(), coordinates.getY());
+                try {
+                    Pane pane = (Pane) getNodeByCoordinate(marketGridPane, coordinates.getX(), coordinates.getY());
 
-                for (Node node : pane.getChildren()) {
-                    try {
-                        if (node.getId().equals("nameTxt" + (i + 1))) {
-                            ((Text) node).setText(itemsInMarket.get(i).getItemName());
+
+                    for (Node node : pane.getChildren()) {
+                        try {
+                            if (node.getId().equals("nameTxt" + (i + 1))) {
+                                ((Text) node).setText(itemsInMarket.get(i).getItemName());
+                            }
+                        } catch (NullPointerException ignored) {
                         }
-                    } catch (NullPointerException ignored) {
                     }
-                }
+                } catch (NullPointerException ignored) { }
             }
         }
         sortMarketItems();
@@ -109,7 +112,7 @@ public class MainPageController {
     // Method is called when user clicks on logout button
     public void LogOutOnClick(MouseEvent event) throws IOException {
         if (isMarketUpdated) {
-            DatabaseHandler.StoreMarketData(tmpItemsList);
+            DatabaseHandler.StoreMarketData(itemsInMarket);
         }
         switchToWelcomeScreen(event);
     }

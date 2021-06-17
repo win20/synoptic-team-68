@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -26,6 +27,14 @@
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                     <children>
+                  <TextField fx:id="searchBarTF" layoutX="283.0" layoutY="43.0" promptText="Search for an item...">
+                     <tooltip>
+                        <Tooltip text="Empty search bar to reset market" />
+                     </tooltip></TextField>
+                  <Button fx:id="searchBtn" layoutX="447.0" layoutY="44.0" mnemonicParsing="false" onAction="#searchMarketItems" style="-fx-background-color: #4a4a4a;" text="Search" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                         <ScrollPane layoutY="87.0">
                             <content>
                                 <GridPane fx:id="marketGridPane" alignment="CENTER" hgap="10.0" prefHeight="532.0" prefWidth="765.0" vgap="10.0">
@@ -329,13 +338,20 @@
                                 </GridPane>
                             </content>
                         </ScrollPane>
-                        <Text layoutX="22.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Marketplace">
+                        <Text fill="#4a4a4a" layoutX="14.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Marketplace">
                             <font>
                                 <Font name="Segoe UI" size="36.0" />
                             </font>
                         </Text>
-                  <Text layoutX="561.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sort: " />
-                  <ComboBox fx:id="marketComboBox" layoutX="600.0" layoutY="35.0" onAction="#comboOnAction" prefWidth="150.0" />
+                  <Text layoutX="566.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sort: " />
+                  <ComboBox fx:id="marketComboBox" layoutX="605.0" layoutY="44.0" onAction="#sortMarketItems" prefWidth="150.0">
+                      <value>
+                          <String fx:value="Alphabetical (Ascending)" />
+                      </value>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ComboBox>
                     </children>
                 </AnchorPane>
             </content>

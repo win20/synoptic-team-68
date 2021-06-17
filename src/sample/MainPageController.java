@@ -15,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
@@ -33,13 +34,17 @@ public class MainPageController {
     @FXML TextField itemNameField, itemDescField, itemPriceField;
     @FXML GridPane marketGridPane, basketGridPane;
     @FXML Spinner<Integer> stockSpinner;
+    @FXML Button searchBtn;
+    @FXML TextField searchBarTF;
     SpinnerValueFactory<Integer> svf = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 1);
 
     @FXML Text balanceTxt, usernameTxt;
     @FXML TextField topUpTxt;
     @FXML ComboBox<String> marketComboBox;
-    static final String ALPHABETICAL_SORT_TXT = "A-Z";
-    static final String PRICE_SORT_TXT = "Price (low - high)";
+    static final String ALPHABETICAL_SORT_TXT = "Alphabetical (Ascending)";
+    static final String ALPHABETICAL_REVERSE_SORT_TXT = "Alphabetical (Descending)";
+    static final String PRICE_SORT_TXT = "Price (Ascending)";
+    static final String PRICE_SORT_REVERSE_TXT = "Price (Descending)";
 
     @FXML Text totalCostTxt;
 
@@ -68,7 +73,7 @@ public class MainPageController {
         balanceTxt.setText(String.valueOf(userAccount.getBalance()));
         basketTotalPrice = 0;
 
-        marketComboBox.getItems().addAll(ALPHABETICAL_SORT_TXT, PRICE_SORT_TXT);
+        marketComboBox.getItems().addAll(ALPHABETICAL_SORT_TXT, ALPHABETICAL_REVERSE_SORT_TXT, PRICE_SORT_TXT, PRICE_SORT_REVERSE_TXT);
 
         // Load market data from database and populate the grid
         if (new File("marketData.csv").exists()) {
@@ -88,7 +93,7 @@ public class MainPageController {
                 }
             }
         }
-
+        sortMarketItems();
         usernameTxt.setText(userAccount.getUsername());
     }
 
@@ -112,74 +117,46 @@ public class MainPageController {
     // Method brings up a pop up dialog that displays the information for that item
     public void onViewClickEvent(MouseEvent event) {
         final Stage dialog = new Stage();
-        Pane pane = (Pane) ((Node) event.getSource()).getParent(); // get relevant pane element
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(stage);
+        VBox dialogVbox = new VBox(20);
 
-        // **** calculate the Item index in the items arrayList to look for ****
-        int row;
-        int column;
-
-        if (GridPane.getRowIndex(pane) == null) row = 0;
-        else row = GridPane.getRowIndex(pane);
-
-        if (GridPane.getColumnIndex(pane) == null) column = 0;
-        else column = GridPane.getColumnIndex(pane);
-
-        int itemToUpdateIdx = 3 * row + column;  // convert grid coordinates to flat index
-
-        Item itemToUpdate = new Item();
-        boolean isFilled = false;
-        try {
-            itemToUpdate = itemsInMarket.get(itemToUpdateIdx);
-            isFilled = true;
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("No item to view...");
-            isFilled = false;
+        String buttonId = ((Node) event.getSource()).getId(); //use button to determine what item this is
+        Item thisItem = null;
+        for (Item i : itemsInMarket) {
+            if (i.getItemID().equals(buttonId)) { //search item DB
+                thisItem = i;
+                break;
+            }
         }
-
-        // *************
-
-        if (isFilled) {
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.initOwner(stage);
-            VBox dialogVbox = new VBox(20);
-
-            Text titleTxt = new Text(itemToUpdate.getItemName());
-            titleTxt.setTextAlignment(TextAlignment.CENTER);
-            titleTxt.setStyle("-fx-font-size: 18px; -fx-font-weight: 800;");
-
-            Text descTxt = new Text("Description: " + itemToUpdate.getItemDesc());
-            descTxt.setTextAlignment(TextAlignment.CENTER);
-
-            Text stockTxt = new Text("Stock: " + itemToUpdate.getStock());
-            stockTxt.setTextAlignment(TextAlignment.CENTER);
-
-            Text sellerTxt = new Text("Seller: " + itemToUpdate.getItemOwner());
-            sellerTxt.setTextAlignment(TextAlignment.CENTER);
-
-            Text priceTxt = new Text("Price: S/" + itemToUpdate.getItemCost());
-            priceTxt.setTextAlignment(TextAlignment.CENTER);
-
-            dialogVbox.getChildren().addAll(titleTxt, descTxt, stockTxt, sellerTxt, priceTxt);
-            dialogVbox.setAlignment(Pos.CENTER);
-
-            Scene dialogScene = new Scene(dialogVbox, 300, 200);
-            dialog.setScene(dialogScene);
-            dialog.show();
-        } else {
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.initOwner(stage);
-            VBox dialogVbox = new VBox(20);
-
-            Text mainTxt = new Text("No item in this slot...");
-            mainTxt.setStyle("-fx-font-size: 24px; -fx-font-weight: 800;");
-
-            dialogVbox.setAlignment(Pos.CENTER);
-            dialogVbox.getChildren().add(mainTxt);
-
-            Scene dialogScene = new Scene(dialogVbox, 300, 200);
-            dialog.setScene(dialogScene);
-            dialog.show();
+        if (thisItem == null) {
+            Text notFound = new Text("Item not found. It may have been removed.");
+            dialogVbox.getChildren().add(notFound);
+            return;
         }
+        //set all the text fields for the product
+        Text titleTxt = new Text(thisItem.getItemName());
+        titleTxt.setTextAlignment(TextAlignment.CENTER);
+        titleTxt.setStyle("-fx-font-size: 18px; -fx-font-weight: 800;");
+
+        Text descTxt = new Text("Description: " + thisItem.getItemDesc());
+        descTxt.setTextAlignment(TextAlignment.CENTER);
+
+        Text stockTxt = new Text("Stock: " + thisItem.getStock());
+        stockTxt.setTextAlignment(TextAlignment.CENTER);
+
+        Text sellerTxt = new Text("Seller: " + thisItem.getItemOwner());
+        sellerTxt.setTextAlignment(TextAlignment.CENTER);
+
+        Text priceTxt = new Text("Price: S/" + thisItem.getItemCost());
+        priceTxt.setTextAlignment(TextAlignment.CENTER);
+
+        dialogVbox.getChildren().addAll(titleTxt, descTxt, stockTxt, sellerTxt, priceTxt);
+        dialogVbox.setAlignment(Pos.CENTER);
+        
+        Scene dialogScene = new Scene(dialogVbox, 300, 200);
+        dialog.setScene(dialogScene);
+        dialog.show();
     }
 
     // Method called when sell button is clicked
@@ -192,23 +169,8 @@ public class MainPageController {
 
         itemsInMarket.add(item);
         tmpItemsList.add(item);
-        int itemToAddIdx = itemsInMarket.size() - 1; // get index of item to convert into grid coordinates
 
-        // create tuple of coordinates from index
-        Tuple2<Integer, Integer> coordinates = convertIndexToGridCoord(itemToAddIdx, 3);
-
-        // get pane to be added to
-        Pane pane = (Pane) getNodeByCoordinate(marketGridPane, coordinates.getX(), coordinates.getY());
-
-        // get Text element that needs to be updated with the name of the item
-        for (Node node : pane.getChildren()) {
-            try {
-                if (node.getId().equals("nameTxt" + (itemToAddIdx + 1))) {
-                    ((Text) node).setText(item.getItemName());
-                }
-            } catch (NullPointerException ignored) {
-            }
-        }
+        searchMarketItems();
 
         isMarketUpdated = true;
     }
@@ -274,23 +236,21 @@ public class MainPageController {
     // Finds correct Item in ItemsInMarket to update and decreases stock by one..
     // * simple implementation but need to add amount selector to allow for adding multiples item to basket *
     public void onBuyClickEvent(MouseEvent event) {
-        Node pane = ((Node) event.getSource()).getParent();
+        String buttonId = ((Node) event.getSource()).getId(); //use button to determine what item this is
+        Item thisItem = null;
 
-        // **** Find index to update from pane's coordinates ****
-        int row;
-        int column;
-
-        if (GridPane.getRowIndex(pane) == null) row = 0;
-        else row = GridPane.getRowIndex(pane);
-
-        if (GridPane.getColumnIndex(pane) == null) column = 0;
-        else column = GridPane.getColumnIndex(pane);
-
-        int itemToRemoveIdx = 3 * row + column;
-        // ****************
+        for (Item i : itemsInMarket) {
+            if (i.getItemID().equals(buttonId)) { //search item DB
+                thisItem = i;
+                break;
+            }
+        }
+        if (thisItem == null) {
+            return;
+        }
 
         try {
-            addItemtoBasket(itemsInMarket.get(itemToRemoveIdx));
+            addItemtoBasket(thisItem);
         } catch (IndexOutOfBoundsException e) {
             Alert noItemAlert = new Alert(Alert.AlertType.INFORMATION);
             noItemAlert.setHeaderText(null);
@@ -299,37 +259,16 @@ public class MainPageController {
             noItemAlert.showAndWait();
         }
 
-        Item item = new Item();
-
         try {
-            item = itemsInMarket.get(itemToRemoveIdx);
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("No item to buy in this slot...");
-        }
-
-        try {
-            item.removeStock(1);
+            thisItem.removeStock(1);
             DatabaseHandler.StoreMarketData(itemsInMarket);
-            if (item.getStock() == 0) {
-                itemsInMarket.remove(itemToRemoveIdx);
-
-                for (Node node : ((Pane)pane).getChildren()) {
-                    try {
-                        if (node.getId().equals("nameTxt" + (itemToRemoveIdx + 1))) {
-                            updateMarketGrid();
-                            DatabaseHandler.StoreMarketData(itemsInMarket);
-                        }
-                    } catch (NullPointerException ignored) {
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+            if (thisItem.getStock() == 0) {
+                itemsInMarket.remove(thisItem);
             }
+            searchMarketItems();
         } catch (IndexOutOfBoundsException | IOException e) {
             System.out.println("No item in this slot");
         }
-
-
     }
 
     // Adds onto user's account balance
@@ -338,16 +277,6 @@ public class MainPageController {
         userAccount.topUpBalance(topUpAmount);
         balanceTxt.setText(String.valueOf(userAccount.getBalance()));
         DatabaseHandler.UpdateRecord(userAccount.getUserId(), userAccount);
-    }
-
-    // Controls sorting comboBox, updates grid
-    public void comboOnAction(ActionEvent actionEvent) {
-        if (marketComboBox.getValue().equals(ALPHABETICAL_SORT_TXT)) {
-            itemsInMarket.sort(new AlphabeticalNameSort());
-        } else {
-            itemsInMarket.sort(new PriceSort());
-        }
-        updateMarketGrid();
     }
 
     // creates new pane in basket grid or increases qty if already in basket
@@ -455,6 +384,97 @@ public class MainPageController {
         }
 
         checkoutAlert.showAndWait();
+    }
+
+    public ArrayList<Item> searchItems = new ArrayList<>(); //for holding query results
+    public boolean searched = false; //confirm if a search is active
+    public int display_count = 9; //how many products are displayed on a single page
+
+    public void sortMarketItems() {
+        String s = marketComboBox.getValue();
+        int max_display = display_count;
+        //new item list = get item list from database, up until public counter var
+        ArrayList<Item> newItems;
+        marketGridPane.getChildren().clear();
+        if (searchItems.isEmpty() && searched) {
+            System.out.println("No search results.");
+            return;
+        }
+        else if (searchItems.isEmpty()) {
+            newItems = itemsInMarket;
+        }
+        else {
+            newItems = searchItems;
+        }
+        if (display_count > newItems.size()) { max_display = newItems.size(); }
+        switch (s) {
+            case "Alphabetical (Ascending)":
+                newItems.sort(new AlphabeticalNameSort());
+                break;
+            case "Alphabetical (Descending)":
+                newItems.sort(new AlphabeticalNameSort().reversed());
+                break;
+            case "Price (Ascending)":
+                newItems.sort(new PriceSort());
+                break;
+            case "Price (Descending)":
+                newItems.sort(new PriceSort().reversed());
+                break;
+            default:
+                break;
+        }
+        for (int i = 0; i < max_display; i++) {
+            System.out.println(newItems.get(i)); //testing
+            Item item =  newItems.get(i);
+
+            //configuring elements for item and creating pane
+            Text itemName = new Text(item.getItemName());
+            itemName.setLayoutX(9.0); itemName.setLayoutY(113.0);
+            itemName.setFill(Color.WHITE);
+            Button itemButton = new Button();
+            itemButton.setId(item.getItemID());
+            itemButton.setLayoutX(150.0); itemButton.setLayoutY(113.0);
+            itemButton.setText("View");
+            itemButton.setOnMouseClicked(this::onViewClickEvent);
+            itemButton.setStyle("-fx-background-color: #ffff; -fx-cursor: hand;");
+            itemButton.setTextFill(Color.web("4a4a4a"));
+            Tooltip itemTooltip = new Tooltip("View item description");
+            itemButton.setTooltip(itemTooltip);
+
+            Button buyButton = new Button();
+            buyButton.setId(item.getItemID());
+            buyButton.setLayoutX(150.0); buyButton.setLayoutY(80.0);
+            buyButton.setText("Buy");
+            buyButton.setOnMouseClicked(this::onBuyClickEvent);
+            buyButton.setStyle("-fx-background-color: #ffff; -fx-cursor: hand;");
+            buyButton.setTextFill(Color.web("4a4a4a"));
+            Tooltip buyTooltip = new Tooltip("Adds 1 item to basket");
+            buyButton.setTooltip(buyTooltip);
+
+            Pane newItem = new Pane(itemName, itemButton, buyButton);
+            newItem.setStyle("-fx-background-color: #4a4a4a");
+            marketGridPane.add(newItem, i % 3, (int) Math.floor(i/3));
+        }
+    }
+
+    public void searchMarketItems() {
+        searchItems.clear();
+        String s = searchBarTF.getText();
+        if (s == null) {
+            searched = false;
+            return;
+        }
+        searched = true;
+        for (Item i : itemsInMarket) {
+            if (i.getItemName().toLowerCase().contains(s.toLowerCase())) {
+                searchItems.add(i);
+            }
+        }
+        if (searchItems.isEmpty()) {
+            System.out.println("No search results for " + s);
+            s = null;
+        }
+        sortMarketItems();
     }
 
     // Custom Tuple2 class used to store grid coordinates

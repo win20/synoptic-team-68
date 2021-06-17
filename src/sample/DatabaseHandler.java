@@ -259,7 +259,7 @@ public class DatabaseHandler {
 
     public static void StoreMarketData(ArrayList<Item> itemsInMarket) throws IOException {
         String csvPath = "marketData.csv";
-        CSVWriter appendWriter = new CSVWriter(new FileWriter(csvPath, false));
+        CSVWriter appendWriter = new CSVWriter(new FileWriter(csvPath, true));
 
         for (Item item : itemsInMarket) {
             String[] record = item.returnItemData().split(",");
@@ -278,14 +278,12 @@ public class DatabaseHandler {
         while ((nextRecord = CSVreader.readNext()) != null) {
             Item item = new Item(nextRecord[0], nextRecord[1], nextRecord[2], Integer.parseInt(nextRecord[3]),
                     Integer.parseInt(nextRecord[4]), nextRecord[5]);
-            returnedList.add(item);
+            if (item.getStock() != 0) {
+                returnedList.add(item);
+            }
         }
 
         return returnedList;
-    }
-
-    public static void UpdateBalance(int userId, int balance) {
-
     }
 
     public static byte[] salt;
